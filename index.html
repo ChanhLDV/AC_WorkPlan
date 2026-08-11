@@ -3,34 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Phariton Relaunch — Work Plan Dashboard</title>
+<title>Phariton Relaunch — Live Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root{
-  --navy:#1f3864; --blue:#2e5496; --blue2:#4472c4; --red:#c00000; --amber:#e08a00;
-  --green:#2e7d32; --grey:#595959; --line:#e3e7ee; --bg:#f4f6fa; --card:#ffffff;
-}
+:root{--navy:#1f3864;--blue:#2e5496;--blue2:#4472c4;--red:#c00000;--amber:#e08a00;--green:#2e7d32;--grey:#595959;--line:#e3e7ee;--bg:#f4f6fa;--card:#fff;}
 *{box-sizing:border-box}
 body{margin:0;font-family:"Segoe UI",Arial,Helvetica,sans-serif;background:var(--bg);color:#1a1f2b;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 60px}
 header.top{background:linear-gradient(120deg,var(--navy),var(--blue2));color:#fff;border-radius:14px;padding:22px 26px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;box-shadow:0 6px 20px rgba(31,56,100,.18)}
-header.top h1{margin:0;font-size:22px;letter-spacing:.3px}
-header.top .sub{opacity:.85;font-size:13px;margin-top:4px}
+header.top h1{margin:0;font-size:22px} header.top .sub{opacity:.85;font-size:13px;margin-top:4px}
 .ctrl{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.14);padding:8px 12px;border-radius:10px}
-.ctrl label{font-size:12px;opacity:.9}
-.ctrl input{border:none;border-radius:6px;padding:6px 8px;font-size:14px;font-weight:600;color:var(--navy)}
-/* filter bar */
-.filters{position:sticky;top:0;z-index:20;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:16px;box-shadow:0 3px 12px rgba(20,30,60,.07);display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.ctrl label{font-size:12px;opacity:.9} .ctrl input{border:none;border-radius:6px;padding:6px 8px;font-size:14px;font-weight:600;color:var(--navy)}
+.srcbar{margin-top:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:12.5px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 14px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px}
+.dot.live{background:var(--green)} .dot.off{background:var(--amber)} .dot.load{background:var(--blue2)}
+.srcbar a{color:var(--blue);text-decoration:none} .srcbar a:hover{text-decoration:underline}
+.rbtn{border:none;background:var(--navy);color:#fff;border-radius:8px;padding:6px 12px;font-size:12.5px;font-weight:600;cursor:pointer}
+.filters{position:sticky;top:0;z-index:20;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:12px;box-shadow:0 3px 12px rgba(20,30,60,.07);display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
 .fitem{display:flex;flex-direction:column;gap:3px}
 .fitem label{font-size:10.5px;color:var(--grey);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
 .fitem select,.fitem input{border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-size:13px;background:#fff;color:#1a1f2b;min-width:132px}
-.fitem select:focus,.fitem input:focus{outline:none;border-color:var(--blue2)}
 .fbtn{border:none;background:var(--navy);color:#fff;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;height:35px}
 .fbtn.reset{background:#eef1f5;color:var(--navy)}
-.fbadge{margin-left:auto;font-size:12.5px;color:var(--grey);align-self:center}
-.fbadge b{color:var(--navy);font-size:15px}
-.fbadge.filtered b{color:var(--red)}
-h2.sec{font-size:15px;color:var(--navy);margin:34px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--blue2);letter-spacing:.3px;text-transform:uppercase}
+.fbadge{margin-left:auto;font-size:12.5px;color:var(--grey);align-self:center} .fbadge b{color:var(--navy);font-size:15px} .fbadge.filtered b{color:var(--red)}
+h2.sec{font-size:15px;color:var(--navy);margin:34px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--blue2);text-transform:uppercase}
 .grid{display:grid;gap:14px}
 .kpis{grid-template-columns:repeat(6,1fr)}
 .kpi{background:var(--card);border-radius:12px;padding:14px 12px;box-shadow:0 2px 8px rgba(20,30,60,.06);border:1px solid var(--line);text-align:center}
@@ -41,32 +37,25 @@ h2.sec{font-size:15px;color:var(--navy);margin:34px 0 12px;padding-bottom:8px;bo
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(20,30,60,.05)}
 .card h3{margin:0 0 12px;font-size:13px;color:var(--navy)}
 .decis{background:linear-gradient(135deg,#fff5f5,#fff);border:1px solid #f2c4c4;border-left:5px solid var(--red)}
-.decis ul{margin:0;padding-left:18px} .decis li{margin:9px 0;font-size:13px;line-height:1.45}
-.decis b{color:var(--red)}
+.decis ul{margin:0;padding-left:18px} .decis li{margin:9px 0;font-size:13px;line-height:1.45} .decis b{color:var(--red)}
 table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--card);border-radius:10px;overflow:hidden}
-th{background:var(--blue);color:#fff;padding:8px 8px;text-align:center;font-weight:600;font-size:11.5px}
-td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:center}
-td.l,th.l{text-align:left}
-tr:nth-child(even) td{background:#fafbfe}
-tr.total td{background:var(--navy);color:#fff;font-weight:700}
-.bar{height:8px;border-radius:5px;background:#e7ebf3;overflow:hidden;min-width:60px}
-.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--blue2),#6ea8fe)}
+th{background:var(--blue);color:#fff;padding:8px;text-align:center;font-weight:600;font-size:11.5px}
+td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:center} td.l,th.l{text-align:left}
+tr:nth-child(even) td{background:#fafbfe} tr.total td{background:var(--navy);color:#fff;font-weight:700}
+.bar{height:8px;border-radius:5px;background:#e7ebf3;overflow:hidden;min-width:60px} .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--blue2),#6ea8fe)}
 .pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
-.p-crit{background:#fde8e8;color:var(--red)} .p-high{background:#fff2d9;color:var(--amber)}
-.p-med{background:#e6f0ff;color:var(--blue)} .p-low{background:#eef1f5;color:var(--grey)}
+.p-crit{background:#fde8e8;color:var(--red)} .p-high{background:#fff2d9;color:var(--amber)} .p-med{background:#e6f0ff;color:var(--blue)} .p-low{background:#eef1f5;color:var(--grey)}
 .s-ns{background:#eef1f5;color:var(--grey)} .s-ip{background:#e6f0ff;color:var(--blue)} .s-cp{background:#e5f5e8;color:var(--green)}
 .days{font-weight:700} .days.crit{color:var(--red)} .days.warn{color:var(--amber)}
 .wl th{background:var(--red)}
 .chart-box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:0 2px 8px rgba(20,30,60,.05)}
 .charts{grid-template-columns:1fr 1fr}
-.note{font-size:12px;color:var(--grey);line-height:1.6;background:#fff;border:1px dashed #cdd5e3;border-radius:10px;padding:14px 16px;margin-top:14px}
-.note b{color:var(--navy)}
+.note{font-size:12px;color:var(--grey);line-height:1.6;background:#fff;border:1px dashed #cdd5e3;border-radius:10px;padding:14px 16px;margin-top:14px} .note b{color:var(--navy)}
 .flag{background:#fff8e6;border:1px solid #f0d489;border-left:4px solid var(--amber);border-radius:8px;padding:10px 14px;font-size:12.5px;margin-top:10px}
 .empty{padding:26px;text-align:center;color:var(--grey);font-size:13px;background:#fff;border:1px dashed #cdd5e3;border-radius:10px}
-.detail-wrap{overflow-x:auto}
-.detail td.risk{max-width:220px;text-align:left;font-size:11px;color:var(--grey)}
+.detail-wrap{overflow-x:auto} .detail td.risk{max-width:220px;text-align:left;font-size:11px;color:var(--grey)}
 .footer{margin-top:26px;text-align:center;color:#98a1b3;font-size:11px}
-@media print{.ctrl,.filters,.fbtn{display:none} body{background:#fff} .wrap{max-width:100%} .filters{position:static}}
+@media print{.ctrl,.filters,.fbtn,.rbtn{display:none} body{background:#fff} .wrap{max-width:100%} .filters{position:static}}
 @media(max-width:900px){.kpis{grid-template-columns:repeat(3,1fr)}.two,.charts{grid-template-columns:1fr}}
 </style>
 </head>
@@ -74,16 +63,18 @@ tr.total td{background:var(--navy);color:#fff;font-weight:700}
 <div class="wrap">
   <header class="top">
     <div>
-      <h1>PHARITON RELAUNCH — WORK PLAN DASHBOARD</h1>
-      <div class="sub">Báo cáo kiểm soát tiến độ · nguồn: Master List (69 việc) · lọc & tính động theo ngày báo cáo</div>
+      <h1>PHARITON RELAUNCH — LIVE DASHBOARD</h1>
+      <div class="sub">Dữ liệu đọc trực tiếp từ Google Sheet · tab Master_List · lọc & tính động</div>
     </div>
-    <div class="ctrl">
-      <label>Ngày báo cáo</label>
-      <input type="date" id="repDate" value="2026-08-10">
-    </div>
+    <div class="ctrl"><label>Ngày báo cáo</label><input type="date" id="repDate" value="2026-08-10"></div>
   </header>
 
-  <!-- FILTER BAR -->
+  <div class="srcbar">
+    <span id="srcStatus"><span class="dot load"></span>Đang tải dữ liệu từ Google Sheet…</span>
+    <button class="rbtn" id="btnReload">↻ Tải lại từ Sheet</button>
+    <a id="sheetLink" href="#" target="_blank">↗ Mở Google Sheet</a>
+  </div>
+
   <div class="filters">
     <div class="fitem"><label>Workstream</label><select id="fWS"></select></div>
     <div class="fitem"><label>PIC</label><select id="fPIC"></select></div>
@@ -96,275 +87,249 @@ tr.total td{background:var(--navy);color:#fff;font-weight:700}
   </div>
 
   <h2 class="sec">1 · Tổng quan</h2>
-  <div class="grid two">
-    <div><div class="grid kpis" id="kpis"></div></div>
-    <div class="card decis">
-      <h3>⚑ Điểm cần lãnh đạo quyết định</h3>
-      <ul id="decisions"></ul>
-    </div>
-  </div>
-
+  <div class="grid two"><div><div class="grid kpis" id="kpis"></div></div>
+    <div class="card decis"><h3>⚑ Điểm cần lãnh đạo quyết định</h3><ul id="decisions"></ul></div></div>
   <div class="grid charts" style="margin-top:16px">
     <div class="chart-box"><h3 style="margin:0 0 8px;font-size:13px;color:var(--navy)">Trạng thái &amp; Độ ưu tiên</h3><canvas id="cStatus" height="150"></canvas></div>
-    <div class="chart-box"><h3 style="margin:0 0 8px;font-size:13px;color:var(--navy)">Khối lượng đến hạn theo tháng</h3><canvas id="cMonth" height="150"></canvas></div>
-  </div>
-
-  <h2 class="sec">2 · Tiến độ theo Workstream</h2>
-  <div id="tblWS"></div>
-  <h2 class="sec">3 · Tải công việc theo PIC</h2>
-  <div id="tblPIC"></div>
+    <div class="chart-box"><h3 style="margin:0 0 8px;font-size:13px;color:var(--navy)">Khối lượng đến hạn theo tháng</h3><canvas id="cMonth" height="150"></canvas></div></div>
+  <h2 class="sec">2 · Tiến độ theo Workstream</h2><div id="tblWS"></div>
+  <h2 class="sec">3 · Tải công việc theo PIC</h2><div id="tblPIC"></div>
   <h2 class="sec">4 · Ma trận Trạng thái × Ưu tiên</h2>
-  <div class="grid two"><div id="tblMatrix"></div>
-    <div class="chart-box"><canvas id="cWS" height="220"></canvas></div>
-  </div>
-  <h2 class="sec">5 · Watchlist — việc cần lãnh đạo chú ý</h2>
-  <div class="flag" id="wlCrit"></div>
-  <div id="tblWL" style="margin-top:10px"></div>
-  <h2 class="sec">6 · Khối lượng đến hạn theo tháng</h2>
-  <div id="tblMonth"></div>
-  <h2 class="sec">7 · Việc định kỳ / chưa có mốc thời gian</h2>
-  <div id="tblRec"></div>
-
-  <h2 class="sec">8 · Danh sách chi tiết công việc (theo bộ lọc)</h2>
-  <div class="detail-wrap"><div id="tblDetail"></div></div>
-
+  <div class="grid two"><div id="tblMatrix"></div><div class="chart-box"><canvas id="cWS" height="220"></canvas></div></div>
+  <h2 class="sec">5 · Watchlist — việc cần lãnh đạo chú ý</h2><div class="flag" id="wlCrit"></div><div id="tblWL" style="margin-top:10px"></div>
+  <h2 class="sec">6 · Khối lượng đến hạn theo tháng</h2><div id="tblMonth"></div>
+  <h2 class="sec">7 · Việc định kỳ / chưa có mốc thời gian</h2><div id="tblRec"></div>
+  <h2 class="sec">8 · Danh sách chi tiết công việc (theo bộ lọc)</h2><div class="detail-wrap"><div id="tblDetail"></div></div>
   <div class="note" id="notes"></div>
-  <div class="footer">Phariton Relaunch Work Plan · HTML dashboard có bộ lọc, tự tính theo ngày báo cáo · đối chiếu 1:1 với Master List</div>
+  <div class="footer">Phariton Relaunch · Live dashboard đọc trực tiếp Google Sheet (gviz) · có bản offline dự phòng</div>
 </div>
 
 <script>
-const DATA = [{"ws": "PMO", "task": "Project kick-off & chốt scope Relaunch Phariton", "start": "2026-08-10", "end": "2026-08-15", "endText": null, "pic": "Marketing", "support": "BOD / Sales / Trade / Supply", "status": "In Progress", "priority": "Critical", "progress": 0.2, "dep": "Business Plan approval", "risk": "Chốt nhanh scope để giữ launch Oct"}, {"ws": "Brand & Trust", "task": "Chốt Brand Strategy / Positioning / Communication Platform", "start": "2026-08-10", "end": "2026-09-21", "endText": null, "pic": "Marketing", "support": "BOD / Agency", "status": "In Progress", "priority": "Critical", "progress": 0.3, "dep": "Project kick-off", "risk": ""}, {"ws": "Brand logo", "task": "Chốt logo mới & Brand Guideline", "start": "2026-08-10", "end": "2026-09-18", "endText": null, "pic": "Marketing", "support": "Designer", "status": "In Progress", "priority": "Critical", "progress": 0.4, "dep": "B01", "risk": ""}, {"ws": "Brand visual", "task": "Phát triển Master Key Visual Phariton Family", "start": "2026-08-15", "end": "2026-09-18", "endText": null, "pic": "Marketing", "support": "Creative Agency", "status": "In Progress", "priority": "High", "progress": 0.3, "dep": "B02", "risk": ""}, {"ws": "Product & Supply", "task": "Draft artwork để làm mẫu in proof toàn bộ portfolio theo identity mới", "start": "2026-08-15", "end": "2026-08-11", "endText": null, "pic": "Marketing", "support": "RA/Alphatrade/ Designer", "status": "In Progress", "priority": "Critical", "progress": 0.0, "dep": "B02", "risk": "Legal/claim delay | Gộp từ list rời: Hoàn thành thiết kế bao bì mới nhóm Phariton – PIC Marketing team / Sales team, due 14/08/2026"}, {"ws": "Product & Supply", "task": "Legal / Regulatory check claim, label, barcode", "start": "2026-08-12", "end": "2026-08-14", "endText": null, "pic": "Regulatory", "support": "Marketing / Dược sĩ", "status": "In Progress", "priority": "Critical", "progress": 0.0, "dep": "PK01", "risk": "Approval lead time"}, {"ws": "Product & Supply", "task": "Chốt Phariton TVP 30 viên: pack, price, COGS, MOQ", "start": "2026-08-10", "end": "2026-08-25", "endText": null, "pic": "Marketing", "support": "Finance / Sales / Factory", "status": "In Progress", "priority": "Critical", "progress": 0.3, "dep": "B01", "risk": ""}, {"ws": "Product & Supply", "task": "Packaging proof / color proof / mock-up approval", "start": "2026-08-11", "end": "2026-08-17", "endText": null, "pic": "Marketing", "support": "Alphatrade/NCC", "status": "In Progress", "priority": "Critical", "progress": 0.0, "dep": "PK01;PK02", "risk": "Print delay | Gộp từ list rời: Hàng mẫu bao bì mới (500 hộp mỗi SKU) – PIC Marketing team / Operation team, due 31/08/2026"}, {"ws": "Product & Supply", "task": "In bao bì & sản xuất hàng identity mới", "start": "2026-09-08", "end": "2026-09-25", "endText": null, "pic": "Factory", "support": "Supply / QA/ marketing", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "PK04", "risk": "Production capacity | Gộp từ list rời: Sản xuất theo forecast – PIC TVP / Operation team"}, {"ws": "Product & Supply", "task": "Kế hoạch xử lý tồn kho bao bì cũ", "start": "2026-08-20", "end": "2026-09-15", "endText": null, "pic": "Supply", "support": "Sales / Finance", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "PK01", "risk": ""}, {"ws": "Product & Supply", "task": "Allocation hàng mới theo vùng / NPP / chuỗi", "start": "2026-09-15", "end": "2026-09-30", "endText": null, "pic": "Supply", "support": "Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "PK05", "risk": ""}, {"ws": "Sales Readiness", "task": "Xây Selling Story / Sales Kit / Catalogue", "start": "2026-08-20", "end": "2026-09-20", "endText": null, "pic": "Marketing", "support": "Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "B03;PK03", "risk": "Gộp từ list rời: File Catalogue danh mục sản phẩm – PIC Marketing team / Sales team, due 05/09/2026"}, {"ws": "Sales Readiness", "task": "Chốt price list / trade terms / FAQ / objection handling", "start": "2026-08-25", "end": "2026-09-30", "endText": null, "pic": "Marketing", "support": "Finance / Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "PK03", "risk": ""}, {"ws": "Sales Readiness", "task": "Training RSM / ASM / Sales Team", "start": "2026-09-15", "end": "2026-09-25", "endText": null, "pic": "Marketing", "support": "Sales Training", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "S01;S02", "risk": "Gộp từ list rời: Đào tạo & huấn luyện sản phẩm/chương trình bán hàng offline tại 22 chi nhánh – PIC Sales team / Training team, due 15/10/2026"}, {"ws": "Sales Readiness", "task": "Sales readiness certification / quiz", "start": "2026-09-22", "end": "2026-09-28", "endText": null, "pic": "Sales", "support": "Marketing", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "S03", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Chốt POSM master list & design", "start": "2026-08-12", "end": "2026-08-15", "endText": null, "pic": "Trade Marketing", "support": "Marketing", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "B03", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Sản xuất POSM", "start": "2026-09-05", "end": "2026-09-25", "endText": null, "pic": "Trade Marketing", "support": "Vendor", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "T01", "risk": "Vendor lead time | Gộp từ list rời: In tờ rơi sản phẩm – PIC Operation team / Marketing team, due 20/09/2026"}, {"ws": "Trade / Pharmacy", "task": "Phân nhóm nhà thuốc A/B/C & shortlist branding", "start": "2026-08-20", "end": "2026-09-10", "endText": null, "pic": "Trade Marketing", "support": "Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Khảo sát & đo đạc POS branding", "start": "2026-09-01", "end": "2026-09-20", "endText": null, "pic": "Trade Marketing", "support": "Sales / Vendor", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "T03", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "POSM deployment tại nhà thuốc", "start": "2026-10-01", "end": "2026-10-20", "endText": null, "pic": "Trade Marketing", "support": "Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "T02;PK07", "risk": "Gộp từ list rời: Logistic tờ rơi và Catalogue về cho chi nhánh – PIC Operation team / Giám đốc CN, due 20/09/2026"}, {"ws": "Trade / Pharmacy", "task": "Pharmacy Branding Roll-out Wave 1", "start": "2026-10-01", "end": "2026-10-31", "endText": null, "pic": "Trade Marketing", "support": "Vendor / Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "T04", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Pharmacy Branding Scale-up", "start": "2026-11-01", "end": "2027-02-28", "endText": null, "pic": "Trade Marketing", "support": "Sales / Vendor", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "T06", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Trade Launch: display / nhập hàng / sampling / activation", "start": "2026-10-15", "end": "2026-10-31", "endText": null, "pic": "Trade Marketing", "support": "Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "T05", "risk": ""}, {"ws": "Digital & Consumer", "task": "Website architecture / UX / UI", "start": "2026-08-20", "end": "2026-09-15", "endText": null, "pic": "Digital", "support": "Marketing / Agency", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "B01", "risk": ""}, {"ws": "Digital & Consumer", "task": "Phariton AI Expert scope & conversation flows", "start": "2026-08-20", "end": "2026-09-20", "endText": null, "pic": "Digital", "support": "Marketing / Medical", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "D01", "risk": "Medical accuracy"}, {"ws": "Digital & Consumer", "task": "Website + AI development", "start": "2026-10-01", "end": "2026-11-30", "endText": null, "pic": "Digital", "support": "Tech Vendor", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "D01;D02", "risk": ""}, {"ws": "Digital & Consumer", "task": "Content population / SEO / expert content", "start": "2026-10-15", "end": "2026-12-10", "endText": null, "pic": "Digital", "support": "Content / Expert", "status": "Not Started", "priority": "Medium", "progress": 0.0, "dep": "D03", "risk": ""}, {"ws": "Digital & Consumer", "task": "UAT / AI testing / QR integration", "start": "2026-12-01", "end": "2026-12-20", "endText": null, "pic": "Digital", "support": "Marketing / Tech", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "D03;D04", "risk": ""}, {"ws": "Digital & Consumer", "task": "Website & AI Go-live", "start": "2026-12-20", "end": "2026-12-31", "endText": null, "pic": "Digital", "support": "Marketing", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "D05", "risk": ""}, {"ws": "Pharmacist Club", "task": "Thiết kế Phariton Club mechanic & member journey", "start": "2026-08-20", "end": "2026-09-20", "endText": null, "pic": "Marketing", "support": "Sales / Digital", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "B01", "risk": ""}, {"ws": "Pharmacist Club", "task": "QR registration / CRM / database setup", "start": "2026-09-15", "end": "2026-11-15", "endText": null, "pic": "Digital", "support": "Marketing / Tech", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "PCL01", "risk": ""}, {"ws": "Pharmacist Club", "task": "Education content / expert modules / incentive", "start": "2026-10-01", "end": "2026-11-30", "endText": null, "pic": "Marketing", "support": "Medical / Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "PCL01", "risk": ""}, {"ws": "Pharmacist Club", "task": "Launch Phariton Pharmacist Club", "start": "2026-12-01", "end": "2026-12-15", "endText": null, "pic": "Marketing", "support": "Sales / Digital", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "PCL02;PCL03", "risk": ""}, {"ws": "Pharmacist Club", "task": "Recruit & engage pharmacists", "start": "2026-12-01", "end": "2027-04-30", "endText": null, "pic": "Sales", "support": "Marketing / Digital", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "PCL04", "risk": ""}, {"ws": "Brand & Trust", "task": "Shortlist Viện Dinh dưỡng / Đại học", "start": "2026-08-15", "end": "2026-08-31", "endText": null, "pic": "Marketing", "support": "BOD / Medical", "status": "In Progress", "priority": "High", "progress": 0.2, "dep": "", "risk": ""}, {"ws": "Brand & Trust", "task": "Proposal hợp tác nghiên cứu / scientific partnership", "start": "2026-09-01", "end": "2026-09-20", "endText": null, "pic": "Marketing", "support": "Medical / Agency", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "I01", "risk": ""}, {"ws": "Brand & Trust", "task": "Meeting / negotiation với đối tác", "start": "2026-10-01", "end": "2026-11-30", "endText": null, "pic": "BOD / Marketing", "support": "Medical", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "I02", "risk": "Partner timing"}, {"ws": "Brand & Trust", "task": "Chốt MoU / đề tài / expert endorsement", "start": "2026-12-01", "end": "2026-12-31", "endText": null, "pic": "Marketing", "support": "Legal / Medical", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "I03", "risk": ""}, {"ws": "Consumer Program", "task": "Thiết kế Consumer QR / promotion mechanic", "start": "2026-09-01", "end": "2026-10-15", "endText": null, "pic": "Marketing", "support": "Digital / Legal", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "D01", "risk": ""}, {"ws": "Consumer Program", "task": "Consumer CRM & data architecture", "start": "2026-10-01", "end": "2026-12-15", "endText": null, "pic": "Digital", "support": "Tech / Marketing", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "C01", "risk": ""}, {"ws": "Consumer Program", "task": "Soft launch QR / CRM engagement", "start": "2027-01-01", "end": "2027-03-31", "endText": null, "pic": "Marketing", "support": "Digital", "status": "Not Started", "priority": "Medium", "progress": 0.0, "dep": "C02", "risk": ""}, {"ws": "Consumer Program", "task": "Consumer activation + QR promotion + sampling", "start": "2027-04-01", "end": "2027-09-30", "endText": null, "pic": "Marketing", "support": "Trade / Digital", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "C03", "risk": ""}, {"ws": "Media", "task": "Communication strategy & agency brief", "start": "2027-01-05", "end": "2027-01-20", "endText": null, "pic": "Marketing", "support": "Media / Creative Agency", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "B03;I04", "risk": ""}, {"ws": "Media", "task": "Creative development: TVC / iTVC / Digital KV", "start": "2027-01-20", "end": "2027-02-15", "endText": null, "pic": "Marketing", "support": "Creative Agency", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "M01", "risk": ""}, {"ws": "Media", "task": "Expert / KOL / Podcast content production", "start": "2027-02-01", "end": "2027-02-28", "endText": null, "pic": "Marketing", "support": "PR / Medical / Agency", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "M01", "risk": ""}, {"ws": "Media", "task": "Media plan: YouTube / TikTok / FB / Google / LCD", "start": "2027-02-01", "end": "2027-02-20", "endText": null, "pic": "Media", "support": "Marketing", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "M01", "risk": ""}, {"ws": "Media", "task": "Mass Media Campaign Wave 1", "start": "2027-03-01", "end": "2027-05-31", "endText": null, "pic": "Marketing", "support": "Media Agency", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "M02;M03;M04", "risk": ""}, {"ws": "Media", "task": "Mass Media Campaign Wave 2 + optimization", "start": "2027-06-01", "end": "2027-07-31", "endText": null, "pic": "Marketing", "support": "Media Agency", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "M05", "risk": ""}, {"ws": "Finance / Pricing", "task": "Monthly sales / GP / marketing ROI review", "start": "2026-10-31", "end": "2027-09-30", "endText": null, "pic": "Finance", "support": "Marketing / Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "Commercial launch", "risk": ""}, {"ws": "Finance / Pricing", "task": "Pricing adjustment preparation Jul-27", "start": "2027-05-01", "end": "2027-06-20", "endText": null, "pic": "Finance", "support": "Marketing / Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "F01", "risk": ""}, {"ws": "Finance / Pricing", "task": "Implement new pricing", "start": "2027-07-01", "end": "2027-07-01", "endText": null, "pic": "Sales / Finance", "support": "Marketing", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "F02", "risk": ""}, {"ws": "Review", "task": "Q1 post-launch review", "start": "2027-01-05", "end": "2027-01-15", "endText": null, "pic": "Marketing", "support": "Sales / Trade / Finance", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "Launch", "risk": ""}, {"ws": "Review", "task": "Mid-year business review", "start": "2027-06-15", "end": "2027-06-30", "endText": null, "pic": "Marketing", "support": "BOD / Sales / Finance", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "F01", "risk": ""}, {"ws": "Review", "task": "Annual review & FY2028 planning", "start": "2027-09-01", "end": "2027-09-30", "endText": null, "pic": "Marketing", "support": "BOD / Cross-functional", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "R02", "risk": ""}, {"ws": "Product & Supply", "task": "Danh mục sản phẩm chiến lược của AC", "start": null, "end": "2026-08-12", "endText": null, "pic": "Products team", "support": "Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales", "task": "File present Phariton cho đối tác B2B", "start": null, "end": "2026-08-13", "endText": null, "pic": "Marketing", "support": "Sales team, Products team", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales", "task": "Tiến hành tiếp cận Long Châu", "start": null, "end": "2026-08-18", "endText": null, "pic": "Sales", "support": "AD Chain team", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales", "task": "Forecast từng chi nhánh và vùng", "start": null, "end": "2026-08-13", "endText": null, "pic": "Sales", "support": "RSM, Giám đốc CN", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales", "task": "Truyền thông về kế hoạch bán hàng, danh mục sản phẩm Phariton Q4/2026 và 2027", "start": null, "end": "2026-08-15", "endText": null, "pic": "Sales", "support": "", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Product & Supply", "task": "Đặt hàng TVP theo forecast", "start": "2026-08-14", "end": "2026-08-17", "endText": null, "pic": "Operation team", "support": "Marketing / Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Product & Supply", "task": "Logistic theo forecast về tới nhà máy", "start": "2026-09-17", "end": "2026-09-20", "endText": null, "pic": "Operation team", "support": "Marketing / Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Tờ trình Chương trình bán hàng Tháng 10", "start": null, "end": "2026-09-15", "endText": null, "pic": "Sales", "support": "Trade Marketing", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales Readiness", "task": "Cung ứng công cụ Marketing", "start": null, "end": null, "endText": "", "pic": "Marketing", "support": "Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "File ảnh in ấn chương trình bán hàng", "start": null, "end": "2026-09-05", "endText": null, "pic": "Marketing", "support": "Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Ban hành Chương trình Tháng 10", "start": null, "end": "2026-09-30", "endText": null, "pic": "Trade Marketing", "support": "", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales", "task": "Theo dõi kết quả bán hàng", "start": null, "end": null, "endText": "Hàng tuần", "pic": "Sales", "support": "", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Product & Supply", "task": "Theo dõi sản lượng để đặt hàng", "start": null, "end": null, "endText": "Thứ 2 hàng tuần", "pic": "Sales", "support": "", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales", "task": "Thúc đẩy bán hàng", "start": null, "end": null, "endText": "Hàng tuần", "pic": "Sales", "support": "", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales Readiness", "task": "Review kết quả bán hàng và Đào tạo/huấn luyện sản phẩm & chương trình bán hàng nhắc lại (online)", "start": null, "end": null, "endText": "Tuần 3,4 tháng 9 và Tuần 1,2 tháng 10", "pic": "Sales", "support": "RSM, Giám đốc CN, toàn bộ sales team", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}];
-const WS = ["PMO", "Brand & Trust", "Brand logo", "Brand visual", "Product & Supply", "Sales Readiness", "Sales", "Trade / Pharmacy", "Digital & Consumer", "Pharmacist Club", "Consumer Program", "Media", "Finance / Pricing", "Review"];
-const PICS = ["Marketing", "Sales", "Sales / Finance", "Trade Marketing", "Digital", "Media", "Finance", "Supply", "Operation team", "Factory", "Products team", "Regulatory", "BOD / Marketing"];
+const SHEET_ID="1ujIS9S4rAjlPin-0SA_tEeNNMt0HWcCjgSncgFHIknw", SHEET_NAME="Master_List";
+const FALLBACK = [{"ws": "PMO", "task": "Project kick-off & chốt scope Relaunch Phariton", "start": "2026-08-10", "end": "2026-08-15", "endText": null, "pic": "Marketing", "support": "BOD / Sales / Trade / Supply", "status": "In Progress", "priority": "Critical", "progress": 0.2, "dep": "Business Plan approval", "risk": "Chốt nhanh scope để giữ launch Oct"}, {"ws": "Brand & Trust", "task": "Chốt Brand Strategy / Positioning / Communication Platform", "start": "2026-08-10", "end": "2026-09-21", "endText": null, "pic": "Marketing", "support": "BOD / Agency", "status": "In Progress", "priority": "Critical", "progress": 0.3, "dep": "Project kick-off", "risk": ""}, {"ws": "Brand logo", "task": "Chốt logo mới & Brand Guideline", "start": "2026-08-10", "end": "2026-09-18", "endText": null, "pic": "Marketing", "support": "Designer", "status": "In Progress", "priority": "Critical", "progress": 0.4, "dep": "B01", "risk": ""}, {"ws": "Brand visual", "task": "Phát triển Master Key Visual Phariton Family", "start": "2026-08-15", "end": "2026-09-18", "endText": null, "pic": "Marketing", "support": "Creative Agency", "status": "In Progress", "priority": "High", "progress": 0.3, "dep": "B02", "risk": ""}, {"ws": "Product & Supply", "task": "Draft artwork để làm mẫu in proof toàn bộ portfolio theo identity mới", "start": "2026-08-15", "end": "2026-08-11", "endText": null, "pic": "Marketing", "support": "RA/Alphatrade/ Designer", "status": "In Progress", "priority": "Critical", "progress": 0.0, "dep": "B02", "risk": "Legal/claim delay | Gộp từ list rời: Hoàn thành thiết kế bao bì mới nhóm Phariton – PIC Marketing team / Sales team, due 14/08/2026"}, {"ws": "Product & Supply", "task": "Legal / Regulatory check claim, label, barcode", "start": "2026-08-12", "end": "2026-08-14", "endText": null, "pic": "Regulatory", "support": "Marketing / Dược sĩ", "status": "In Progress", "priority": "Critical", "progress": 0.0, "dep": "PK01", "risk": "Approval lead time"}, {"ws": "Product & Supply", "task": "Chốt Phariton TVP 30 viên: pack, price, COGS, MOQ", "start": "2026-08-10", "end": "2026-08-25", "endText": null, "pic": "Marketing", "support": "Finance / Sales / Factory", "status": "In Progress", "priority": "Critical", "progress": 0.3, "dep": "B01", "risk": ""}, {"ws": "Product & Supply", "task": "Packaging proof / color proof / mock-up approval", "start": "2026-08-11", "end": "2026-08-17", "endText": null, "pic": "Marketing", "support": "Alphatrade/NCC", "status": "In Progress", "priority": "Critical", "progress": 0.0, "dep": "PK01;PK02", "risk": "Print delay | Gộp từ list rời: Hàng mẫu bao bì mới (500 hộp mỗi SKU) – PIC Marketing team / Operation team, due 31/08/2026"}, {"ws": "Product & Supply", "task": "In bao bì & sản xuất hàng identity mới", "start": "2026-09-08", "end": "2026-09-25", "endText": null, "pic": "Factory", "support": "Supply / QA/ marketing", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "PK04", "risk": "Production capacity | Gộp từ list rời: Sản xuất theo forecast – PIC TVP / Operation team"}, {"ws": "Product & Supply", "task": "Kế hoạch xử lý tồn kho bao bì cũ", "start": "2026-08-20", "end": "2026-09-15", "endText": null, "pic": "Supply", "support": "Sales / Finance", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "PK01", "risk": ""}, {"ws": "Product & Supply", "task": "Allocation hàng mới theo vùng / NPP / chuỗi", "start": "2026-09-15", "end": "2026-09-30", "endText": null, "pic": "Supply", "support": "Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "PK05", "risk": ""}, {"ws": "Sales Readiness", "task": "Xây Selling Story / Sales Kit / Catalogue", "start": "2026-08-20", "end": "2026-09-20", "endText": null, "pic": "Marketing", "support": "Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "B03;PK03", "risk": "Gộp từ list rời: File Catalogue danh mục sản phẩm – PIC Marketing team / Sales team, due 05/09/2026"}, {"ws": "Sales Readiness", "task": "Chốt price list / trade terms / FAQ / objection handling", "start": "2026-08-25", "end": "2026-09-30", "endText": null, "pic": "Marketing", "support": "Finance / Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "PK03", "risk": ""}, {"ws": "Sales Readiness", "task": "Training RSM / ASM / Sales Team", "start": "2026-09-15", "end": "2026-09-25", "endText": null, "pic": "Marketing", "support": "Sales Training", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "S01;S02", "risk": "Gộp từ list rời: Đào tạo & huấn luyện sản phẩm/chương trình bán hàng offline tại 22 chi nhánh – PIC Sales team / Training team, due 15/10/2026"}, {"ws": "Sales Readiness", "task": "Sales readiness certification / quiz", "start": "2026-09-22", "end": "2026-09-28", "endText": null, "pic": "Sales", "support": "Marketing", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "S03", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Chốt POSM master list & design", "start": "2026-08-12", "end": "2026-08-15", "endText": null, "pic": "Trade Marketing", "support": "Marketing", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "B03", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Sản xuất POSM", "start": "2026-09-05", "end": "2026-09-25", "endText": null, "pic": "Trade Marketing", "support": "Vendor", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "T01", "risk": "Vendor lead time | Gộp từ list rời: In tờ rơi sản phẩm – PIC Operation team / Marketing team, due 20/09/2026"}, {"ws": "Trade / Pharmacy", "task": "Phân nhóm nhà thuốc A/B/C & shortlist branding", "start": "2026-08-20", "end": "2026-09-10", "endText": null, "pic": "Trade Marketing", "support": "Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Khảo sát & đo đạc POS branding", "start": "2026-09-01", "end": "2026-09-20", "endText": null, "pic": "Trade Marketing", "support": "Sales / Vendor", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "T03", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "POSM deployment tại nhà thuốc", "start": "2026-10-01", "end": "2026-10-20", "endText": null, "pic": "Trade Marketing", "support": "Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "T02;PK07", "risk": "Gộp từ list rời: Logistic tờ rơi và Catalogue về cho chi nhánh – PIC Operation team / Giám đốc CN, due 20/09/2026"}, {"ws": "Trade / Pharmacy", "task": "Pharmacy Branding Roll-out Wave 1", "start": "2026-10-01", "end": "2026-10-31", "endText": null, "pic": "Trade Marketing", "support": "Vendor / Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "T04", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Pharmacy Branding Scale-up", "start": "2026-11-01", "end": "2027-02-28", "endText": null, "pic": "Trade Marketing", "support": "Sales / Vendor", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "T06", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Trade Launch: display / nhập hàng / sampling / activation", "start": "2026-10-15", "end": "2026-10-31", "endText": null, "pic": "Trade Marketing", "support": "Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "T05", "risk": ""}, {"ws": "Digital & Consumer", "task": "Website architecture / UX / UI", "start": "2026-08-20", "end": "2026-09-15", "endText": null, "pic": "Digital", "support": "Marketing / Agency", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "B01", "risk": ""}, {"ws": "Digital & Consumer", "task": "Phariton AI Expert scope & conversation flows", "start": "2026-08-20", "end": "2026-09-20", "endText": null, "pic": "Digital", "support": "Marketing / Medical", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "D01", "risk": "Medical accuracy"}, {"ws": "Digital & Consumer", "task": "Website + AI development", "start": "2026-10-01", "end": "2026-11-30", "endText": null, "pic": "Digital", "support": "Tech Vendor", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "D01;D02", "risk": ""}, {"ws": "Digital & Consumer", "task": "Content population / SEO / expert content", "start": "2026-10-15", "end": "2026-12-10", "endText": null, "pic": "Digital", "support": "Content / Expert", "status": "Not Started", "priority": "Medium", "progress": 0.0, "dep": "D03", "risk": ""}, {"ws": "Digital & Consumer", "task": "UAT / AI testing / QR integration", "start": "2026-12-01", "end": "2026-12-20", "endText": null, "pic": "Digital", "support": "Marketing / Tech", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "D03;D04", "risk": ""}, {"ws": "Digital & Consumer", "task": "Website & AI Go-live", "start": "2026-12-20", "end": "2026-12-31", "endText": null, "pic": "Digital", "support": "Marketing", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "D05", "risk": ""}, {"ws": "Pharmacist Club", "task": "Thiết kế Phariton Club mechanic & member journey", "start": "2026-08-20", "end": "2026-09-20", "endText": null, "pic": "Marketing", "support": "Sales / Digital", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "B01", "risk": ""}, {"ws": "Pharmacist Club", "task": "QR registration / CRM / database setup", "start": "2026-09-15", "end": "2026-11-15", "endText": null, "pic": "Digital", "support": "Marketing / Tech", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "PCL01", "risk": ""}, {"ws": "Pharmacist Club", "task": "Education content / expert modules / incentive", "start": "2026-10-01", "end": "2026-11-30", "endText": null, "pic": "Marketing", "support": "Medical / Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "PCL01", "risk": ""}, {"ws": "Pharmacist Club", "task": "Launch Phariton Pharmacist Club", "start": "2026-12-01", "end": "2026-12-15", "endText": null, "pic": "Marketing", "support": "Sales / Digital", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "PCL02;PCL03", "risk": ""}, {"ws": "Pharmacist Club", "task": "Recruit & engage pharmacists", "start": "2026-12-01", "end": "2027-04-30", "endText": null, "pic": "Sales", "support": "Marketing / Digital", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "PCL04", "risk": ""}, {"ws": "Brand & Trust", "task": "Shortlist Viện Dinh dưỡng / Đại học", "start": "2026-08-15", "end": "2026-08-31", "endText": null, "pic": "Marketing", "support": "BOD / Medical", "status": "In Progress", "priority": "High", "progress": 0.2, "dep": "", "risk": ""}, {"ws": "Brand & Trust", "task": "Proposal hợp tác nghiên cứu / scientific partnership", "start": "2026-09-01", "end": "2026-09-20", "endText": null, "pic": "Marketing", "support": "Medical / Agency", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "I01", "risk": ""}, {"ws": "Brand & Trust", "task": "Meeting / negotiation với đối tác", "start": "2026-10-01", "end": "2026-11-30", "endText": null, "pic": "BOD / Marketing", "support": "Medical", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "I02", "risk": "Partner timing"}, {"ws": "Brand & Trust", "task": "Chốt MoU / đề tài / expert endorsement", "start": "2026-12-01", "end": "2026-12-31", "endText": null, "pic": "Marketing", "support": "Legal / Medical", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "I03", "risk": ""}, {"ws": "Consumer Program", "task": "Thiết kế Consumer QR / promotion mechanic", "start": "2026-09-01", "end": "2026-10-15", "endText": null, "pic": "Marketing", "support": "Digital / Legal", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "D01", "risk": ""}, {"ws": "Consumer Program", "task": "Consumer CRM & data architecture", "start": "2026-10-01", "end": "2026-12-15", "endText": null, "pic": "Digital", "support": "Tech / Marketing", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "C01", "risk": ""}, {"ws": "Consumer Program", "task": "Soft launch QR / CRM engagement", "start": "2027-01-01", "end": "2027-03-31", "endText": null, "pic": "Marketing", "support": "Digital", "status": "Not Started", "priority": "Medium", "progress": 0.0, "dep": "C02", "risk": ""}, {"ws": "Consumer Program", "task": "Consumer activation + QR promotion + sampling", "start": "2027-04-01", "end": "2027-09-30", "endText": null, "pic": "Marketing", "support": "Trade / Digital", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "C03", "risk": ""}, {"ws": "Media", "task": "Communication strategy & agency brief", "start": "2027-01-05", "end": "2027-01-20", "endText": null, "pic": "Marketing", "support": "Media / Creative Agency", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "B03;I04", "risk": ""}, {"ws": "Media", "task": "Creative development: TVC / iTVC / Digital KV", "start": "2027-01-20", "end": "2027-02-15", "endText": null, "pic": "Marketing", "support": "Creative Agency", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "M01", "risk": ""}, {"ws": "Media", "task": "Expert / KOL / Podcast content production", "start": "2027-02-01", "end": "2027-02-28", "endText": null, "pic": "Marketing", "support": "PR / Medical / Agency", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "M01", "risk": ""}, {"ws": "Media", "task": "Media plan: YouTube / TikTok / FB / Google / LCD", "start": "2027-02-01", "end": "2027-02-20", "endText": null, "pic": "Media", "support": "Marketing", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "M01", "risk": ""}, {"ws": "Media", "task": "Mass Media Campaign Wave 1", "start": "2027-03-01", "end": "2027-05-31", "endText": null, "pic": "Marketing", "support": "Media Agency", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "M02;M03;M04", "risk": ""}, {"ws": "Media", "task": "Mass Media Campaign Wave 2 + optimization", "start": "2027-06-01", "end": "2027-07-31", "endText": null, "pic": "Marketing", "support": "Media Agency", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "M05", "risk": ""}, {"ws": "Finance / Pricing", "task": "Monthly sales / GP / marketing ROI review", "start": "2026-10-31", "end": "2027-09-30", "endText": null, "pic": "Finance", "support": "Marketing / Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "Commercial launch", "risk": ""}, {"ws": "Finance / Pricing", "task": "Pricing adjustment preparation Jul-27", "start": "2027-05-01", "end": "2027-06-20", "endText": null, "pic": "Finance", "support": "Marketing / Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "F01", "risk": ""}, {"ws": "Finance / Pricing", "task": "Implement new pricing", "start": "2027-07-01", "end": "2027-07-01", "endText": null, "pic": "Sales / Finance", "support": "Marketing", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "F02", "risk": ""}, {"ws": "Review", "task": "Q1 post-launch review", "start": "2027-01-05", "end": "2027-01-15", "endText": null, "pic": "Marketing", "support": "Sales / Trade / Finance", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "Launch", "risk": ""}, {"ws": "Review", "task": "Mid-year business review", "start": "2027-06-15", "end": "2027-06-30", "endText": null, "pic": "Marketing", "support": "BOD / Sales / Finance", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "F01", "risk": ""}, {"ws": "Review", "task": "Annual review & FY2028 planning", "start": "2027-09-01", "end": "2027-09-30", "endText": null, "pic": "Marketing", "support": "BOD / Cross-functional", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "R02", "risk": ""}, {"ws": "Product & Supply", "task": "Danh mục sản phẩm chiến lược của AC", "start": null, "end": "2026-08-12", "endText": null, "pic": "Products team", "support": "Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales", "task": "File present Phariton cho đối tác B2B", "start": null, "end": "2026-08-13", "endText": null, "pic": "Marketing", "support": "Sales team, Products team", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales", "task": "Tiến hành tiếp cận Long Châu", "start": null, "end": "2026-08-18", "endText": null, "pic": "Sales", "support": "AD Chain team", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales", "task": "Forecast từng chi nhánh và vùng", "start": null, "end": "2026-08-13", "endText": null, "pic": "Sales", "support": "RSM, Giám đốc CN", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales", "task": "Truyền thông về kế hoạch bán hàng, danh mục sản phẩm Phariton Q4/2026 và 2027", "start": null, "end": "2026-08-15", "endText": null, "pic": "Sales", "support": "", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Product & Supply", "task": "Đặt hàng TVP theo forecast", "start": "2026-08-14", "end": "2026-08-17", "endText": null, "pic": "Operation team", "support": "Marketing / Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Product & Supply", "task": "Logistic theo forecast về tới nhà máy", "start": "2026-09-17", "end": "2026-09-20", "endText": null, "pic": "Operation team", "support": "Marketing / Sales", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Tờ trình Chương trình bán hàng Tháng 10", "start": null, "end": "2026-09-15", "endText": null, "pic": "Sales", "support": "Trade Marketing", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales Readiness", "task": "Cung ứng công cụ Marketing", "start": null, "end": null, "endText": "", "pic": "Marketing", "support": "Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "File ảnh in ấn chương trình bán hàng", "start": null, "end": "2026-09-05", "endText": null, "pic": "Marketing", "support": "Sales", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Trade / Pharmacy", "task": "Ban hành Chương trình Tháng 10", "start": null, "end": "2026-09-30", "endText": null, "pic": "Trade Marketing", "support": "", "status": "Not Started", "priority": "Critical", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales", "task": "Theo dõi kết quả bán hàng", "start": null, "end": null, "endText": "Hàng tuần", "pic": "Sales", "support": "", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Product & Supply", "task": "Theo dõi sản lượng để đặt hàng", "start": null, "end": null, "endText": "Thứ 2 hàng tuần", "pic": "Sales", "support": "", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales", "task": "Thúc đẩy bán hàng", "start": null, "end": null, "endText": "Hàng tuần", "pic": "Sales", "support": "", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}, {"ws": "Sales Readiness", "task": "Review kết quả bán hàng và Đào tạo/huấn luyện sản phẩm & chương trình bán hàng nhắc lại (online)", "start": null, "end": null, "endText": "Tuần 3,4 tháng 9 và Tuần 1,2 tháng 10", "pic": "Sales", "support": "RSM, Giám đốc CN, toàn bộ sales team", "status": "Not Started", "priority": "High", "progress": 0.0, "dep": "", "risk": ""}];
+let DATA = FALLBACK.slice();
+let SOURCE = "offline";
 
-// precompute support tokens per row
-DATA.forEach(r=>{ r.supTokens = (r.support||"").split(/[\/,]/).map(s=>s.trim()).filter(Boolean); });
+const DAY=86400000, charts={};
+const fmtD=s=>{if(!s)return"";const d=new Date(s+"T00:00:00");return d.toLocaleDateString("vi-VN",{day:"2-digit",month:"short",year:"2-digit"});};
+const parse=s=>s?new Date(s+"T00:00:00"):null;
+function priPill(p){const m={"Critical":"p-crit","High":"p-high","Medium":"p-med","Low":"p-low"};return `<span class="pill ${m[p]||''}">${p||''}</span>`;}
+function stPill(s){const m={"Not Started":"s-ns","In Progress":"s-ip","Completed":"s-cp"};return `<span class="pill ${m[s]||''}">${s||''}</span>`;}
+function prepRows(){DATA.forEach(r=>{r.supTokens=(r.support||"").split(/[\/,]/).map(s=>s.trim()).filter(Boolean);});}
 
-const fmtD = s => { if(!s) return ""; const d=new Date(s+"T00:00:00"); return d.toLocaleDateString("vi-VN",{day:"2-digit",month:"short",year:"2-digit"}); };
-const parse = s => s? new Date(s+"T00:00:00") : null;
-const DAY = 86400000;
-let charts = {};
+/* ---------- LIVE LOAD FROM GOOGLE SHEET (gviz JSONP) ---------- */
+function gvizDate(v){ if(v==null||v==="")return null;
+  if(typeof v==="string"){const m=v.match(/^Date\((\d+),(\d+),(\d+)/);
+    if(m){return `${m[1]}-${String(+m[2]+1).padStart(2,'0')}-${String(+m[3]).padStart(2,'0')}`;} return null;}
+  return null;}
+function isDateCell(v){return typeof v==="string" && /^Date\(/.test(v);}
 
-function priPill(p){const m={"Critical":"p-crit","High":"p-high","Medium":"p-med","Low":"p-low"};return `<span class="pill ${m[p]||''}">${p}</span>`;}
-function stPill(s){const m={"Not Started":"s-ns","In Progress":"s-ip","Completed":"s-cp"};return `<span class="pill ${m[s]||''}">${s}</span>`;}
-
-// ---- populate filter dropdowns ----
-function opts(sel,arr,all="Tất cả"){
-  sel.innerHTML=`<option value="">${all}</option>`+arr.map(v=>`<option value="${v.replace(/"/g,'&quot;')}">${v}</option>`).join("");
-}
-function uniq(a){return [...new Set(a)];}
-function initFilters(){
-  opts(document.getElementById("fWS"), WS.filter(w=>DATA.some(r=>r.ws===w)));
-  opts(document.getElementById("fPIC"), uniq(DATA.map(r=>r.pic)).sort());
-  opts(document.getElementById("fST"), ["Not Started","In Progress","Completed"].filter(s=>DATA.some(r=>r.status===s)));
-  opts(document.getElementById("fPR"), ["Critical","High","Medium","Low"].filter(p=>DATA.some(r=>r.priority===p)));
-  const sup=uniq([].concat(...DATA.map(r=>r.supTokens))).sort((a,b)=>a.localeCompare(b));
-  opts(document.getElementById("fSUP"), sup);
-  ["fWS","fPIC","fST","fPR","fSUP"].forEach(id=>document.getElementById(id).addEventListener("change",render));
-  document.getElementById("fQ").addEventListener("input",render);
-  document.getElementById("repDate").addEventListener("change",render);
-  document.getElementById("fReset").addEventListener("click",()=>{
-    ["fWS","fPIC","fST","fPR","fSUP"].forEach(id=>document.getElementById(id).value="");
-    document.getElementById("fQ").value=""; render();
+function parseGviz(resp){
+  const cols=resp.table.cols, rows=resp.table.rows, out=[];
+  rows.forEach(rw=>{
+    const c=rw.c||[];
+    const g=i=>(c[i]&&c[i].v!=null)?c[i].v:"";
+    const task=(g(1)||"").toString().trim();
+    if(!task) return;                       // skip empty rows
+    const endRaw=c[3]?c[3].v:null;
+    let end=null,endText=null;
+    if(isDateCell(endRaw)) end=gvizDate(endRaw);
+    else if(endRaw!=null && endRaw!=="") endText=endRaw.toString();
+    const startRaw=c[2]?c[2].v:null;
+    const start=isDateCell(startRaw)?gvizDate(startRaw):null;
+    let prog=c[10]?c[10].v:0; prog=(typeof prog==="number")?prog:parseFloat(String(prog).replace('%',''))||0;
+    if(prog>1) prog=prog/100;                // tolerate 20 vs 0.2
+    out.push({ws:(g(0)||"").toString().trim(),task,start,end,endText,
+      pic:(g(4)||"").toString().trim(),support:(g(5)||"").toString().trim(),
+      status:(g(8)||"").toString().trim(),priority:(g(9)||"").toString().trim(),
+      progress:prog,dep:(g(11)||"").toString(),risk:(g(12)||"").toString()});
   });
+  return out;
 }
+let liveTimer=null;
+function setSrc(kind,msg){document.getElementById("srcStatus").innerHTML=`<span class="dot ${kind}"></span>${msg}`;}
+function loadLive(){
+  setSrc("load","Đang tải dữ liệu từ Google Sheet…");
+  const cb="__gvizCB_"+Date.now();
+  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(SHEET_NAME)}&range=A1:M400&headers=1&tqx=responseHandler:${cb}`;
+  const s=document.createElement("script"); s.src=url;
+  window[cb]=function(resp){
+    try{
+      if(resp && resp.table && resp.table.rows){
+        const parsed=parseGviz(resp);
+        if(parsed.length){ DATA=parsed; SOURCE="live"; prepRows();
+          const now=new Date().toLocaleString("vi-VN");
+          setSrc("live",`<b style="color:var(--green)">● LIVE</b> · ${DATA.length} việc từ Google Sheet · cập nhật ${now}`);
+          buildFilterOptions(); render();
+        } else { offline("Sheet trả về rỗng — dùng dữ liệu offline."); }
+      } else offline("Không đọc được cấu trúc Sheet — dùng dữ liệu offline.");
+    }catch(e){ offline("Lỗi phân tích dữ liệu — dùng dữ liệu offline."); }
+    cleanup();
+  };
+  liveTimer=setTimeout(()=>{ offline("Không kết nối được Google Sheet (chưa chia sẻ hoặc offline) — dùng dữ liệu offline."); cleanup(); },8000);
+  function cleanup(){ clearTimeout(liveTimer); try{delete window[cb];}catch(_){window[cb]=null;} s.remove(); }
+  s.onerror=function(){ offline("Không tải được Sheet — dùng dữ liệu offline."); cleanup(); };
+  document.body.appendChild(s);
+}
+function offline(msg){ SOURCE="offline"; DATA=FALLBACK.slice(); prepRows();
+  setSrc("off",`<b style="color:var(--amber)">● OFFLINE</b> · ${msg} (${DATA.length} việc, ảnh chụp 10-Aug-26)`);
+  buildFilterOptions(); render(); }
+
+/* ---------- FILTERS ---------- */
+const uniq=a=>[...new Set(a)];
+const wsOrder=()=>uniq(DATA.map(r=>r.ws));
+function opt(sel,arr,cur){ sel.innerHTML=`<option value="">Tất cả</option>`+arr.map(v=>`<option value="${(v||'').replace(/"/g,'&quot;')}">${v}</option>`).join(""); if(cur&&arr.includes(cur)) sel.value=cur; }
+function buildFilterOptions(){
+  const cur={ws:v("fWS"),pic:v("fPIC"),st:v("fST"),pr:v("fPR"),sup:v("fSUP")};
+  opt(document.getElementById("fWS"),wsOrder(),cur.ws);
+  opt(document.getElementById("fPIC"),uniq(DATA.map(r=>r.pic)).sort(),cur.pic);
+  opt(document.getElementById("fST"),["Not Started","In Progress","Completed"].filter(s=>DATA.some(r=>r.status===s)),cur.st);
+  opt(document.getElementById("fPR"),["Critical","High","Medium","Low"].filter(p=>DATA.some(r=>r.priority===p)),cur.pr);
+  opt(document.getElementById("fSUP"),uniq([].concat(...DATA.map(r=>r.supTokens))).sort((a,b)=>a.localeCompare(b)),cur.sup);
+}
+const v=id=>{const e=document.getElementById(id);return e?e.value:"";};
 function getWorking(){
-  const ws=document.getElementById("fWS").value, pic=document.getElementById("fPIC").value,
-        st=document.getElementById("fST").value, pr=document.getElementById("fPR").value,
-        sup=document.getElementById("fSUP").value, q=document.getElementById("fQ").value.trim().toLowerCase();
-  return DATA.filter(r=>
-    (!ws||r.ws===ws)&&(!pic||r.pic===pic)&&(!st||r.status===st)&&(!pr||r.priority===pr)&&
+  const ws=v("fWS"),pic=v("fPIC"),st=v("fST"),pr=v("fPR"),sup=v("fSUP"),q=v("fQ").trim().toLowerCase();
+  return DATA.filter(r=>(!ws||r.ws===ws)&&(!pic||r.pic===pic)&&(!st||r.status===st)&&(!pr||r.priority===pr)&&
     (!sup||r.supTokens.includes(sup))&&
-    (!q||(r.task||"").toLowerCase().includes(q)||(r.ws||"").toLowerCase().includes(q)||(r.pic||"").toLowerCase().includes(q))
-  );
+    (!q||(r.task||"").toLowerCase().includes(q)||(r.ws||"").toLowerCase().includes(q)||(r.pic||"").toLowerCase().includes(q)));
 }
 
 function compute(base,repStr){
-  const rep=new Date(repStr+"T00:00:00");
-  const d30=new Date(rep.getTime()+30*DAY), d14=new Date(rep.getTime()+14*DAY);
-  const R=base.map(r=>{
-    const dl=r.end?parse(r.end):null, hasDate=!!dl;
-    return {...r, dl, hasDate,
-      daysLeft: dl?Math.round((dl-rep)/DAY):null,
-      overdue: dl&&dl<rep&&r.status!=="Completed",
-      due30: dl&&dl>=rep&&dl<=d30&&r.status!=="Completed",
-      due14: dl&&dl>=rep&&dl<=d14&&r.status!=="Completed",
-      watch: dl&&dl<=d30&&r.status!=="Completed"};
-  });
+  const rep=new Date(repStr+"T00:00:00"),d30=new Date(rep.getTime()+30*DAY),d14=new Date(rep.getTime()+14*DAY);
+  const R=base.map(r=>{const dl=r.end?parse(r.end):null,hasDate=!!dl;
+    return {...r,dl,hasDate,daysLeft:dl?Math.round((dl-rep)/DAY):null,
+      overdue:dl&&dl<rep&&r.status!=="Completed",due30:dl&&dl>=rep&&dl<=d30&&r.status!=="Completed",
+      due14:dl&&dl>=rep&&dl<=d14&&r.status!=="Completed",watch:dl&&dl<=d30&&r.status!=="Completed"};});
   return {rep,R};
 }
 
 function render(){
   const repStr=document.getElementById("repDate").value;
-  const base=getWorking();
-  const {rep,R}=compute(base,repStr);
-  const filtered = R.length!==DATA.length;
+  const {R}=compute(getWorking(),repStr);
   const badge=document.getElementById("fBadge");
-  badge.className="fbadge"+(filtered?" filtered":"");
+  badge.className="fbadge"+(R.length!==DATA.length?" filtered":"");
   badge.innerHTML=`Hiển thị <b>${R.length}</b> / ${DATA.length} việc`;
-
   if(R.length===0){
     document.getElementById("kpis").innerHTML="";
     document.getElementById("decisions").innerHTML="<li>Không có công việc khớp bộ lọc.</li>";
     ["tblWS","tblPIC","tblMatrix","tblWL","tblMonth","tblRec","tblDetail"].forEach(id=>document.getElementById(id).innerHTML='<div class="empty">Không có dữ liệu khớp bộ lọc.</div>');
-    document.getElementById("wlCrit").innerHTML="";
-    Object.values(charts).forEach(c=>c&&c.destroy()); charts={};
-    document.getElementById("notes").innerHTML="";
-    return;
+    document.getElementById("wlCrit").innerHTML=""; Object.values(charts).forEach(c=>c&&c.destroy()); document.getElementById("notes").innerHTML=""; return;
   }
-
-  const N=R.length;
-  const done=R.filter(r=>r.status==="Completed").length, ip=R.filter(r=>r.status==="In Progress").length, ns=R.filter(r=>r.status==="Not Started").length;
-  const avg=R.reduce((a,r)=>a+r.progress,0)/N, crit=R.filter(r=>r.priority==="Critical").length;
-  const overdue=R.filter(r=>r.overdue).length, due14=R.filter(r=>r.due14).length, due30=R.filter(r=>r.due30).length;
-  const critOver=R.filter(r=>r.overdue&&r.priority==="Critical").length;
-  const risk=R.filter(r=>r.risk&&r.risk.trim()).length, noDate=R.filter(r=>!r.hasDate).length;
+  const N=R.length,done=R.filter(r=>r.status==="Completed").length,ip=R.filter(r=>r.status==="In Progress").length,ns=R.filter(r=>r.status==="Not Started").length;
+  const avg=R.reduce((a,r)=>a+r.progress,0)/N,crit=R.filter(r=>r.priority==="Critical").length;
+  const overdue=R.filter(r=>r.overdue).length,due14=R.filter(r=>r.due14).length,due30=R.filter(r=>r.due30).length;
+  const critOver=R.filter(r=>r.overdue&&r.priority==="Critical").length,risk=R.filter(r=>r.risk&&r.risk.trim()).length,noDate=R.filter(r=>!r.hasDate).length;
   const critNS=R.filter(r=>r.priority==="Critical"&&r.status==="Not Started").length;
-
-  const kpis=[
-    ["Số việc (đã lọc)",N,""],["Đã hoàn thành",done,done?"ok":""],["Đang thực hiện",ip,""],
+  const kpis=[["Số việc (đã lọc)",N,""],["Đã hoàn thành",done,done?"ok":""],["Đang thực hiện",ip,""],
     ["Chưa bắt đầu",ns,ns>N*0.6?"warn":""],["% Tiến độ BQ",(avg*100).toFixed(1)+"%",avg<0.1?"warn":""],["Việc Critical",crit,"warn"],
     ["Quá hạn",overdue,overdue?"alert":"ok"],["Đến hạn ≤14 ngày",due14,due14?"warn":""],["Đến hạn ≤30 ngày",due30,due30?"warn":""],
-    ["Critical quá hạn",critOver,critOver?"alert":"ok"],["Có rủi ro ghi nhận",risk,risk?"warn":""],["Chưa có mốc TG",noDate,noDate?"warn":""]
-  ];
+    ["Critical quá hạn",critOver,critOver?"alert":"ok"],["Có rủi ro ghi nhận",risk,risk?"warn":""],["Chưa có mốc TG",noDate,noDate?"warn":""]];
   document.getElementById("kpis").innerHTML=kpis.map(k=>`<div class="kpi ${k[2]}"><div class="lab">${k[0]}</div><div class="val">${k[1]}</div></div>`).join("");
 
-  const picCount={}; R.forEach(r=>picCount[r.pic]=(picCount[r.pic]||0)+1);
+  const picCount={};R.forEach(r=>picCount[r.pic]=(picCount[r.pic]||0)+1);
   const topPic=Object.entries(picCount).sort((a,b)=>b[1]-a[1])[0];
-  const topPicCrit=R.filter(r=>r.pic===topPic[0]&&r.priority==="Critical").length;
-  const topPicDue=R.filter(r=>r.pic===topPic[0]&&r.due30).length;
-  const mCount={}; R.forEach(r=>{if(r.hasDate){const k=r.dl.getFullYear()+"-"+String(r.dl.getMonth()+1).padStart(2,"0");mCount[k]=(mCount[k]||0)+1;}});
-  const peak=Object.entries(mCount).sort((a,b)=>b[1]-a[1])[0];
+  const topPicCrit=R.filter(r=>r.pic===topPic[0]&&r.priority==="Critical").length,topPicDue=R.filter(r=>r.pic===topPic[0]&&r.due30).length;
+  const mC={};R.forEach(r=>{if(r.hasDate){const k=r.dl.getFullYear()+"-"+String(r.dl.getMonth()+1).padStart(2,"0");mC[k]=(mC[k]||0)+1;}});
+  const peak=Object.entries(mC).sort((a,b)=>b[1]-a[1])[0];
   const peakLabel=peak?new Date(peak[0]+"-01T00:00:00").toLocaleDateString("vi-VN",{month:"2-digit",year:"numeric"}):"—";
-  const dec=[
+  document.getElementById("decisions").innerHTML=[
     `<b>Tập trung tải:</b> ${Math.round(topPic[1]/N*100)}% khối lượng dồn vào ${topPic[0]} (${topPic[1]} việc, ${topPicCrit} Critical, ${topPicDue} đến hạn ≤30 ngày).`,
     `<b>Tháng cao điểm:</b> ${peakLabel} với ${peak?peak[1]:0} việc đến hạn — cần chốt nguồn lực trước đó.`,
     `<b>Rủi ro tiến độ:</b> ${critNS} việc Critical chưa bắt đầu; tiến độ trung bình ${(avg*100).toFixed(1)}%.`,
-    `<b>Cần xử lý ngay:</b> ${overdue} việc quá hạn, ${due14} việc đến hạn trong 14 ngày. ${noDate} việc chưa có mốc thời gian.`
-  ];
-  document.getElementById("decisions").innerHTML=dec.map(d=>`<li>${d}</li>`).join("");
+    `<b>Cần xử lý ngay:</b> ${overdue} việc quá hạn, ${due14} đến hạn trong 14 ngày. ${noDate} việc chưa có mốc thời gian.`
+  ].map(d=>`<li>${d}</li>`).join("");
 
-  // S2 workstream
   let h=`<table><thead><tr><th class="l">Workstream</th><th>Tổng</th><th>HT</th><th>Đang làm</th><th>Chưa BĐ</th><th>% Tiến độ</th><th>Critical</th><th>Quá hạn</th><th>Đến hạn ≤30</th><th>Deadline gần nhất</th></tr></thead><tbody>`;
-  const wsPresent=WS.filter(ws=>R.some(r=>r.ws===ws));
-  wsPresent.forEach(ws=>{
-    const rs=R.filter(r=>r.ws===ws);
-    const t=rs.length,c=rs.filter(r=>r.status==="Completed").length,i=rs.filter(r=>r.status==="In Progress").length,n=rs.filter(r=>r.status==="Not Started").length;
-    const pc=rs.reduce((a,r)=>a+r.progress,0)/t,cr=rs.filter(r=>r.priority==="Critical").length;
-    const od=rs.filter(r=>r.overdue).length,d3=rs.filter(r=>r.due30).length;
-    const dls=rs.filter(r=>r.hasDate&&r.status!=="Completed").map(r=>r.dl); const near=dls.length?new Date(Math.min(...dls)):null;
-    h+=`<tr><td class="l">${ws}</td><td>${t}</td><td>${c}</td><td>${i}</td><td>${n}</td>
-      <td><div style="display:flex;align-items:center;gap:6px"><div class="bar"><i style="width:${(pc*100).toFixed(0)}%"></i></div><span>${(pc*100).toFixed(0)}%</span></div></td>
-      <td>${cr?`<b style="color:var(--red)">${cr}</b>`:0}</td><td>${od?`<b style="color:var(--red)">${od}</b>`:0}</td><td>${d3||0}</td><td>${near?fmtD(near.toISOString().slice(0,10)):"—"}</td></tr>`;
-  });
+  wsOrder().filter(ws=>R.some(r=>r.ws===ws)).forEach(ws=>{
+    const rs=R.filter(r=>r.ws===ws),t=rs.length,c=rs.filter(r=>r.status==="Completed").length,i=rs.filter(r=>r.status==="In Progress").length,n=rs.filter(r=>r.status==="Not Started").length;
+    const pc=rs.reduce((a,r)=>a+r.progress,0)/t,cr=rs.filter(r=>r.priority==="Critical").length,od=rs.filter(r=>r.overdue).length,d3=rs.filter(r=>r.due30).length;
+    const dls=rs.filter(r=>r.hasDate&&r.status!=="Completed").map(r=>r.dl),near=dls.length?new Date(Math.min(...dls)):null;
+    h+=`<tr><td class="l">${ws}</td><td>${t}</td><td>${c}</td><td>${i}</td><td>${n}</td><td><div style="display:flex;align-items:center;gap:6px"><div class="bar"><i style="width:${(pc*100).toFixed(0)}%"></i></div><span>${(pc*100).toFixed(0)}%</span></div></td><td>${cr?`<b style="color:var(--red)">${cr}</b>`:0}</td><td>${od?`<b style="color:var(--red)">${od}</b>`:0}</td><td>${d3||0}</td><td>${near?fmtD(near.toISOString().slice(0,10)):"—"}</td></tr>`;});
   h+=`<tr class="total"><td class="l">TỔNG</td><td>${N}</td><td>${done}</td><td>${ip}</td><td>${ns}</td><td>${(avg*100).toFixed(1)}%</td><td>${crit}</td><td>${overdue}</td><td>${due30}</td><td></td></tr></tbody></table>`;
   document.getElementById("tblWS").innerHTML=h;
 
-  // S3 PIC
   let p=`<table><thead><tr><th class="l">PIC</th><th>Tổng</th><th>Đang làm</th><th>Chưa BĐ</th><th>Critical</th><th>Quá hạn</th><th>Đến hạn ≤30</th><th>% Tiến độ</th></tr></thead><tbody>`;
-  const picList=[...new Set(R.map(r=>r.pic))].sort((a,b)=>R.filter(r=>r.pic===b).length-R.filter(r=>r.pic===a).length);
-  picList.forEach(pic=>{
-    const rs=R.filter(r=>r.pic===pic);
-    const i=rs.filter(r=>r.status==="In Progress").length,n=rs.filter(r=>r.status==="Not Started").length;
-    const cr=rs.filter(r=>r.priority==="Critical").length,od=rs.filter(r=>r.overdue).length,d3=rs.filter(r=>r.due30).length;
-    const pc=rs.reduce((a,r)=>a+r.progress,0)/rs.length;
-    p+=`<tr><td class="l">${pic}</td><td>${rs.length}</td><td>${i}</td><td>${n}</td><td>${cr?`<b style="color:var(--red)">${cr}</b>`:0}</td><td>${od||0}</td><td>${d3||0}</td><td>${(pc*100).toFixed(0)}%</td></tr>`;
-  });
+  [...new Set(R.map(r=>r.pic))].sort((a,b)=>R.filter(r=>r.pic===b).length-R.filter(r=>r.pic===a).length).forEach(pic=>{
+    const rs=R.filter(r=>r.pic===pic),i=rs.filter(r=>r.status==="In Progress").length,n=rs.filter(r=>r.status==="Not Started").length;
+    const cr=rs.filter(r=>r.priority==="Critical").length,od=rs.filter(r=>r.overdue).length,d3=rs.filter(r=>r.due30).length,pc=rs.reduce((a,r)=>a+r.progress,0)/rs.length;
+    p+=`<tr><td class="l">${pic}</td><td>${rs.length}</td><td>${i}</td><td>${n}</td><td>${cr?`<b style="color:var(--red)">${cr}</b>`:0}</td><td>${od||0}</td><td>${d3||0}</td><td>${(pc*100).toFixed(0)}%</td></tr>`;});
   p+=`<tr class="total"><td class="l">TỔNG</td><td>${N}</td><td>${ip}</td><td>${ns}</td><td>${crit}</td><td>${overdue}</td><td>${due30}</td><td>${(avg*100).toFixed(1)}%</td></tr></tbody></table>`;
   document.getElementById("tblPIC").innerHTML=p;
 
-  // S4 matrix
   const St=["Not Started","In Progress","Completed"],Pr=["Critical","High","Medium","Low"];
   let m=`<table><thead><tr><th class="l">Trạng thái \\ Ưu tiên</th>${Pr.map(x=>`<th>${x}</th>`).join("")}<th>Tổng</th></tr></thead><tbody>`;
   St.forEach(s=>{const cells=Pr.map(pr=>R.filter(r=>r.status===s&&r.priority===pr).length);m+=`<tr><td class="l">${s}</td>${cells.map(c=>`<td>${c||0}</td>`).join("")}<td><b>${cells.reduce((a,b)=>a+b,0)}</b></td></tr>`;});
-  const tot=Pr.map(pr=>R.filter(r=>r.priority===pr).length);
-  m+=`<tr class="total"><td class="l">TỔNG</td>${tot.map(c=>`<td>${c}</td>`).join("")}<td>${N}</td></tr></tbody></table>`;
+  const tt=Pr.map(pr=>R.filter(r=>r.priority===pr).length);
+  m+=`<tr class="total"><td class="l">TỔNG</td>${tt.map(c=>`<td>${c}</td>`).join("")}<td>${N}</td></tr></tbody></table>`;
   document.getElementById("tblMatrix").innerHTML=m;
 
-  // S5 watchlist
-  const wl=R.filter(r=>r.watch).sort((a,b)=>a.dl-b.dl);
-  const wlCrit=wl.filter(r=>r.priority==="Critical").length;
-  document.getElementById("wlCrit").innerHTML=`⚠ <b>${wl.length}</b> việc cần chú ý trong 30 ngày tới — trong đó <b style="color:var(--red)">${wlCrit} Critical</b>. Tiêu chí: chưa hoàn thành và (quá hạn hoặc đến hạn ≤30 ngày).`;
-  if(wl.length){
-    let w=`<table class="wl"><thead><tr><th class="l">Workstream</th><th class="l">Công việc</th><th>PIC</th><th>Deadline</th><th>Ưu tiên</th><th>Trạng thái</th><th>% TĐ</th><th>Còn lại</th></tr></thead><tbody>`;
+  const wl=R.filter(r=>r.watch).sort((a,b)=>a.dl-b.dl),wlCrit=wl.filter(r=>r.priority==="Critical").length;
+  document.getElementById("wlCrit").innerHTML=`⚠ <b>${wl.length}</b> việc cần chú ý trong 30 ngày tới — trong đó <b style="color:var(--red)">${wlCrit} Critical</b>.`;
+  if(wl.length){let w=`<table class="wl"><thead><tr><th class="l">Workstream</th><th class="l">Công việc</th><th>PIC</th><th>Deadline</th><th>Ưu tiên</th><th>Trạng thái</th><th>% TĐ</th><th>Còn lại</th></tr></thead><tbody>`;
     wl.forEach(r=>{const cls=r.daysLeft<=3?"crit":(r.daysLeft<=14?"warn":"");w+=`<tr><td class="l">${r.ws}</td><td class="l">${r.task}</td><td>${r.pic}</td><td>${fmtD(r.end)}</td><td>${priPill(r.priority)}</td><td>${stPill(r.status)}</td><td>${(r.progress*100).toFixed(0)}%</td><td class="days ${cls}">${r.daysLeft}d</td></tr>`;});
-    w+=`</tbody></table>`; document.getElementById("tblWL").innerHTML=w;
-  } else document.getElementById("tblWL").innerHTML='<div class="empty">Không có việc nào trong watchlist theo bộ lọc.</div>';
+    document.getElementById("tblWL").innerHTML=w+`</tbody></table>`;
+  } else document.getElementById("tblWL").innerHTML='<div class="empty">Không có việc trong watchlist theo bộ lọc.</div>';
 
-  // S6 monthly
-  const withDate=R.filter(r=>r.hasDate);
-  let mLabels=[],mVals=[],mCrit=[];
+  const withDate=R.filter(r=>r.hasDate);let mLabels=[],mVals=[],mCrit=[];
   if(withDate.length){
     const minD=new Date(Math.min(...withDate.map(r=>r.dl))),maxD=new Date(Math.max(...withDate.map(r=>r.dl)));
-    const months=[]; let cur=new Date(minD.getFullYear(),minD.getMonth(),1);
-    while(cur<=maxD){months.push(new Date(cur));cur.setMonth(cur.getMonth()+1);}
-    let mm=`<table><thead><tr><th class="l">Tháng</th><th>Số việc đến hạn</th><th>Trong đó Critical</th><th>Luỹ kế</th></tr></thead><tbody>`;
-    let cum=0;
-    months.forEach(mo=>{
-      const inM=withDate.filter(r=>r.dl.getFullYear()===mo.getFullYear()&&r.dl.getMonth()===mo.getMonth());
-      const cc=inM.filter(r=>r.priority==="Critical").length; cum+=inM.length;
-      const lab=mo.toLocaleDateString("vi-VN",{month:"short",year:"numeric"});
-      mLabels.push(lab);mVals.push(inM.length);mCrit.push(cc);
-      mm+=`<tr><td class="l">${lab}</td><td>${inM.length}</td><td>${cc?`<b style="color:var(--red)">${cc}</b>`:0}</td><td>${cum}</td></tr>`;
-    });
+    const months=[];let cur=new Date(minD.getFullYear(),minD.getMonth(),1);while(cur<=maxD){months.push(new Date(cur));cur.setMonth(cur.getMonth()+1);}
+    let mm=`<table><thead><tr><th class="l">Tháng</th><th>Số việc đến hạn</th><th>Trong đó Critical</th><th>Luỹ kế</th></tr></thead><tbody>`;let cum=0;
+    months.forEach(mo=>{const inM=withDate.filter(r=>r.dl.getFullYear()===mo.getFullYear()&&r.dl.getMonth()===mo.getMonth());const cc=inM.filter(r=>r.priority==="Critical").length;cum+=inM.length;
+      const lab=mo.toLocaleDateString("vi-VN",{month:"short",year:"numeric"});mLabels.push(lab);mVals.push(inM.length);mCrit.push(cc);
+      mm+=`<tr><td class="l">${lab}</td><td>${inM.length}</td><td>${cc?`<b style="color:var(--red)">${cc}</b>`:0}</td><td>${cum}</td></tr>`;});
     mm+=`<tr class="total"><td class="l">TỔNG có mốc TG</td><td>${withDate.length}</td><td>${withDate.filter(r=>r.priority==="Critical").length}</td><td>+${noDate} định kỳ = ${N}</td></tr></tbody></table>`;
     document.getElementById("tblMonth").innerHTML=mm;
   } else document.getElementById("tblMonth").innerHTML='<div class="empty">Không có việc có mốc thời gian theo bộ lọc.</div>';
 
-  // S7 recurring
   const rec=R.filter(r=>!r.hasDate);
-  if(rec.length){
-    let rr=`<table><thead><tr><th class="l">Workstream</th><th class="l">Công việc</th><th>PIC</th><th class="l">Tần suất / mốc ghi trong file</th><th>Ưu tiên</th></tr></thead><tbody>`;
+  if(rec.length){let rr=`<table><thead><tr><th class="l">Workstream</th><th class="l">Công việc</th><th>PIC</th><th class="l">Tần suất / mốc ghi trong file</th><th>Ưu tiên</th></tr></thead><tbody>`;
     rec.forEach(r=>{rr+=`<tr><td class="l">${r.ws}</td><td class="l">${r.task}</td><td>${r.pic}</td><td class="l">${r.endText||"(trống)"}</td><td>${priPill(r.priority)}</td></tr>`;});
-    rr+=`</tbody></table>`; document.getElementById("tblRec").innerHTML=rr;
+    document.getElementById("tblRec").innerHTML=rr+`</tbody></table>`;
   } else document.getElementById("tblRec").innerHTML='<div class="empty">Không có việc định kỳ theo bộ lọc.</div>';
 
-  // S8 detail (sorted: dated asc first, no-date last)
-  const det=[...R].sort((a,b)=>{ if(a.hasDate&&b.hasDate) return a.dl-b.dl; if(a.hasDate) return -1; if(b.hasDate) return 1; return 0; });
-  let dt=`<table class="detail"><thead><tr><th class="l">Workstream</th><th class="l">Công việc</th><th>PIC</th><th class="l">Support</th><th>Start</th><th>End</th><th>Status</th><th>Ưu tiên</th><th>% TĐ</th><th>Còn lại</th><th class="l">Rủi ro / Ghi chú</th></tr></thead><tbody>`;
-  det.forEach(r=>{
-    const dueCls=r.overdue?"crit":(r.due14?"warn":"");
-    const dleft=r.hasDate?`<span class="days ${dueCls}">${r.daysLeft}d</span>`:"—";
+  const det=[...R].sort((a,b)=>{if(a.hasDate&&b.hasDate)return a.dl-b.dl;if(a.hasDate)return -1;if(b.hasDate)return 1;return 0;});
+  let dtl=`<table class="detail"><thead><tr><th class="l">Workstream</th><th class="l">Công việc</th><th>PIC</th><th class="l">Support</th><th>Start</th><th>End</th><th>Status</th><th>Ưu tiên</th><th>% TĐ</th><th>Còn lại</th><th class="l">Rủi ro / Ghi chú</th></tr></thead><tbody>`;
+  det.forEach(r=>{const dueCls=r.overdue?"crit":(r.due14?"warn":"");const dleft=r.hasDate?`<span class="days ${dueCls}">${r.daysLeft}d</span>`:"—";
     const endc=r.hasDate?fmtD(r.end):`<span style="color:var(--amber)">${r.endText||"(trống)"}</span>`;
-    dt+=`<tr><td class="l">${r.ws}</td><td class="l">${r.task}</td><td>${r.pic}</td><td class="l" style="font-size:11px;color:var(--grey)">${r.support||"—"}</td><td>${r.start?fmtD(r.start):"—"}</td><td>${endc}</td><td>${stPill(r.status)}</td><td>${priPill(r.priority)}</td><td>${(r.progress*100).toFixed(0)}%</td><td>${dleft}</td><td class="risk">${r.risk||""}</td></tr>`;
-  });
-  dt+=`</tbody></table>`; document.getElementById("tblDetail").innerHTML=dt;
+    dtl+=`<tr><td class="l">${r.ws}</td><td class="l">${r.task}</td><td>${r.pic}</td><td class="l" style="font-size:11px;color:var(--grey)">${r.support||"—"}</td><td>${r.start?fmtD(r.start):"—"}</td><td>${endc}</td><td>${stPill(r.status)}</td><td>${priPill(r.priority)}</td><td>${(r.progress*100).toFixed(0)}%</td><td>${dleft}</td><td class="risk">${r.risk||""}</td></tr>`;});
+  document.getElementById("tblDetail").innerHTML=dtl+`</tbody></table>`;
 
   document.getElementById("notes").innerHTML=
-    `<b>Cách dùng:</b> chọn <b>Workstream / PIC / Status / Ưu tiên / Support</b> hoặc gõ từ khoá → toàn bộ KPI, bảng, watchlist và biểu đồ tính lại theo tập đã lọc. Đổi <b>Ngày báo cáo</b> để cập nhật các mốc quá hạn/đến hạn. Nút <b>↺ Xoá lọc</b> trở về toàn bộ 69 việc.<br>`+
-    `<b>⚑ Lỗi dữ liệu gốc cần kiểm tra:</b> việc "Draft artwork để làm mẫu in proof…" có Start 15-Aug-26 nhưng End 11-Aug-26 (kết thúc trước khi bắt đầu).`;
-
+    `<b>Live-link:</b> dashboard đọc trực tiếp tab <b>Master_List</b> của Google Sheet. Sửa kế hoạch trong Sheet → bấm <b>↻ Tải lại từ Sheet</b> (hoặc mở lại trang) là cập nhật. `+
+    `Yêu cầu: Sheet được chia sẻ "Bất kỳ ai có liên kết → Người xem", hoặc bạn đang đăng nhập Google có quyền xem.<br>`+
+    `<b>Lọc:</b> Workstream / PIC / Status / Ưu tiên / Support + tìm kiếm → toàn bộ chỉ số, bảng, biểu đồ tính lại. Đổi <b>Ngày báo cáo</b> để cập nhật mốc quá hạn/đến hạn.`;
   drawCharts(R,mLabels,mVals,mCrit);
 }
 
 function drawCharts(R,mLabels,mVals,mCrit){
-  Object.values(charts).forEach(c=>c&&c.destroy()); charts={};
+  Object.values(charts).forEach(c=>c&&c.destroy());
   const St=["Not Started","In Progress","Completed"];
-  charts.st=new Chart(document.getElementById("cStatus"),{type:"doughnut",
-    data:{labels:St,datasets:[{data:St.map(s=>R.filter(r=>r.status===s).length),backgroundColor:["#cbd3e1","#4472c4","#2e7d32"],borderWidth:2,borderColor:"#fff"}]},
-    options:{plugins:{legend:{position:"bottom",labels:{font:{size:11}}}},cutout:"58%"}});
-  let cum=0; const cumArr=mVals.map(v=>cum+=v);
-  charts.mo=new Chart(document.getElementById("cMonth"),{
-    data:{labels:mLabels,datasets:[
-      {type:"bar",label:"Đến hạn",data:mVals,backgroundColor:"#4472c4",order:2},
-      {type:"bar",label:"Critical",data:mCrit,backgroundColor:"#c00000",order:1},
-      {type:"line",label:"Luỹ kế",data:cumArr,borderColor:"#e08a00",backgroundColor:"transparent",yAxisID:"y1",tension:.3,order:0,pointRadius:2}
-    ]},
-    options:{plugins:{legend:{position:"bottom",labels:{font:{size:10},boxWidth:12}}},
-      scales:{y:{beginAtZero:true,ticks:{font:{size:10}}},y1:{position:"right",beginAtZero:true,grid:{drawOnChartArea:false},ticks:{font:{size:10}}},x:{ticks:{font:{size:9},maxRotation:60,minRotation:45}}}}});
-  const wsList=WS.filter(ws=>R.some(r=>r.ws===ws));
-  charts.ws=new Chart(document.getElementById("cWS"),{type:"bar",
-    data:{labels:wsList,datasets:[
-      {label:"Chưa bắt đầu",data:wsList.map(ws=>R.filter(r=>r.ws===ws&&r.status==="Not Started").length),backgroundColor:"#cbd3e1",stack:"s"},
-      {label:"Đang làm",data:wsList.map(ws=>R.filter(r=>r.ws===ws&&r.status==="In Progress").length),backgroundColor:"#4472c4",stack:"s"},
-      {label:"Critical (đường)",data:wsList.map(ws=>R.filter(r=>r.ws===ws&&r.priority==="Critical").length),type:"line",borderColor:"#c00000",backgroundColor:"transparent",pointRadius:2}
-    ]},
-    options:{indexAxis:"y",plugins:{legend:{position:"bottom",labels:{font:{size:10},boxWidth:12}},title:{display:true,text:"Số việc & Critical theo Workstream",font:{size:12}}},
-      scales:{x:{stacked:true,beginAtZero:true,ticks:{font:{size:10}}},y:{stacked:true,ticks:{font:{size:9.5}}}}}});
+  charts.st=new Chart(document.getElementById("cStatus"),{type:"doughnut",data:{labels:St,datasets:[{data:St.map(s=>R.filter(r=>r.status===s).length),backgroundColor:["#cbd3e1","#4472c4","#2e7d32"],borderWidth:2,borderColor:"#fff"}]},options:{plugins:{legend:{position:"bottom",labels:{font:{size:11}}}},cutout:"58%"}});
+  let cum=0;const cumArr=mVals.map(v=>cum+=v);
+  charts.mo=new Chart(document.getElementById("cMonth"),{data:{labels:mLabels,datasets:[
+    {type:"bar",label:"Đến hạn",data:mVals,backgroundColor:"#4472c4",order:2},
+    {type:"bar",label:"Critical",data:mCrit,backgroundColor:"#c00000",order:1},
+    {type:"line",label:"Luỹ kế",data:cumArr,borderColor:"#e08a00",backgroundColor:"transparent",yAxisID:"y1",tension:.3,order:0,pointRadius:2}]},
+    options:{plugins:{legend:{position:"bottom",labels:{font:{size:10},boxWidth:12}}},scales:{y:{beginAtZero:true,ticks:{font:{size:10}}},y1:{position:"right",beginAtZero:true,grid:{drawOnChartArea:false},ticks:{font:{size:10}}},x:{ticks:{font:{size:9},maxRotation:60,minRotation:45}}}}});
+  const wsList=wsOrder().filter(ws=>R.some(r=>r.ws===ws));
+  charts.ws=new Chart(document.getElementById("cWS"),{type:"bar",data:{labels:wsList,datasets:[
+    {label:"Chưa bắt đầu",data:wsList.map(ws=>R.filter(r=>r.ws===ws&&r.status==="Not Started").length),backgroundColor:"#cbd3e1",stack:"s"},
+    {label:"Đang làm",data:wsList.map(ws=>R.filter(r=>r.ws===ws&&r.status==="In Progress").length),backgroundColor:"#4472c4",stack:"s"},
+    {label:"Critical (đường)",data:wsList.map(ws=>R.filter(r=>r.ws===ws&&r.priority==="Critical").length),type:"line",borderColor:"#c00000",backgroundColor:"transparent",pointRadius:2}]},
+    options:{indexAxis:"y",plugins:{legend:{position:"bottom",labels:{font:{size:10},boxWidth:12}},title:{display:true,text:"Số việc & Critical theo Workstream",font:{size:12}}},scales:{x:{stacked:true,beginAtZero:true,ticks:{font:{size:10}}},y:{stacked:true,ticks:{font:{size:9.5}}}}}});
 }
 
-initFilters();
-render();
+/* ---------- INIT ---------- */
+document.getElementById("sheetLink").href=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
+["fWS","fPIC","fST","fPR","fSUP"].forEach(id=>document.getElementById(id).addEventListener("change",render));
+document.getElementById("fQ").addEventListener("input",render);
+document.getElementById("repDate").addEventListener("change",render);
+document.getElementById("fReset").addEventListener("click",()=>{["fWS","fPIC","fST","fPR","fSUP"].forEach(id=>document.getElementById(id).value="");document.getElementById("fQ").value="";render();});
+document.getElementById("btnReload").addEventListener("click",loadLive);
+prepRows(); buildFilterOptions(); render();   // show offline snapshot immediately
+loadLive();                                    // then try live
 </script>
 </body>
 </html>
